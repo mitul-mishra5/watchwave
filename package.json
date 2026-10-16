@@ -1,0 +1,16 @@
+{
+  "name": "watchwave",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-time synchronized watch-party platform",
+  "workspaces": ["apps/server", "apps/web"],
+  "scripts": {
+    "dev": "concurrently -k -n server,web -c cyan,magenta \"npm run dev:server\" \"npm run dev:web\"",
+    "dev:server": "npm --workspace apps/server run dev",
+    "dev:web": "npm --workspace apps/web run dev",
+    "build": "npm --workspace apps/server run build && npm --workspace apps/web run build",
+    "test": "npm --workspace apps/server test",
+    "test:latency": "npm --workspace apps/server run test:latency"
+  },
+  "devDependencies": { "concurrently": "^9.1.2" }
+}

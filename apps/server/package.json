@@ -1,0 +1,19 @@
+{
+  "name": "@watchwave/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "test": "node --test",
+    "test:latency": "node test/latency.test.js",
+    "build": "node --check src/index.js && node --check src/room-manager.js && node --check src/socket-handlers.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1",
+    "better-sqlite3": "^11.8.1"
+  }
+}
