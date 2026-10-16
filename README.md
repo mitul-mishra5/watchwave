@@ -21,8 +21,18 @@
   <img src="https://img.shields.io/badge/Socket.IO-010101?style=flat-square&logo=socket.io&logoColor=white" alt="Socket.IO" />
   <img src="https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite" />
 </p>
+<p align="center">
+  <strong>Better together.</strong>
+  <br />
+  A real-time movie-watching platform for sharing playback, conversations, reactions, and playlists with friends.
+</p>
+
+<p align="center">
+  **Live Demo:** [Open WatchWave](https://watchwave-gdnypek6p-mitul051106-1104.vercel.app)
+</p>
 
 ---
+
 
 ## ✨ Overview
 
