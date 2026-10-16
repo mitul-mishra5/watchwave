@@ -1,111 +1,160 @@
-# WatchWave
+# 🌌 WatchWave — Better Together
 
-**A real-time watch-party app for synchronized playback, shared movie discovery and group interaction.** Built with Next.js/React/TypeScript, Node.js/Express, Socket.IO and SQLite.
+<p align="center">
+  <strong>A movie night should never depend on being in the same room.</strong>
+  <br />
+  Watch together, chat in real time, share reactions, and build playlists with friends.
+</p>
 
-## What is implemented
+<p align="center">
+  <a href="https://github.com/mitul-mishra5/watchwave">
+    <img src="https://img.shields.io/badge/Project-WatchWave-8B5CF6?style=for-the-badge&logo=github&logoColor=white" alt="WatchWave project" />
+  </a>
+  <img src="https://img.shields.io/badge/Frontend-Next.js-black?style=for-the-badge&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Language-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Realtime-Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white" alt="Socket.IO" />
+</p>
 
-- Create and join private rooms using six-character invite codes and shareable URLs.
-- Ten-person default room cap (configurable with `ROOM_CAPACITY`).
-- Server-authoritative play/pause/seek/movie selection with monotonically increasing revisions and idempotency keys.
-- Late-join state snapshots and reconnect recovery through `room:sync`.
-- Client drift correction: periodic clock comparison and gentle playback-rate adjustment; hard correction beyond 500 ms.
-- Movie catalog with category filters, title/description search, typo-tolerant title matching and genre-based recommendations.
-- Shared playlist, live chat, emoji reactions, polls with one current vote per participant, and host transfer.
-- SQLite room snapshots retained across server restarts; active sockets/participants are intentionally reset on restart and the first returning participant becomes host.
-- Automated backend/domain tests and an in-process latency microbenchmark.
-- Premium responsive interface with a landing page, discovery grid, room player, participant list, chat and poll UI.
+---
 
-## Requirements
+## ✨ What is WatchWave?
 
-- Node.js 20.9+ (Node 22 LTS recommended)
-- npm 10+
-- Internet access for npm installation and poster assets; movie MP4s are supplied locally by the developer
+**WatchWave** is a real-time, shared movie-watching application built around one simple idea: great stories are better when experienced together.
 
-## Start fresh on Windows
+Create a watch room, invite others, and enjoy synchronized playback with interactive features designed to make online movie nights feel more social.
 
-1. Extract this ZIP into a new folder such as `Desktop\WatchWave`.
-2. In VS Code, choose **File → Open Folder** and select the extracted `watchwave` folder (the one containing this `package.json`).
-3. Open a VS Code terminal in that folder and run `npm install`.
-4. Follow [`docs/MEDIA_SETUP.md`](docs/MEDIA_SETUP.md) to add the eight movie MP4s. The ZIP intentionally does not bundle copyrighted/large media files.
-5. Start the app with `npm run dev`, then visit `http://localhost:3000`.
+## 🚀 Features
 
-Do not extract this ZIP over an older WatchWave folder. Keep the old folder as a backup until the new copy is running.
+| Feature | What it does |
+|---|---|
+| 🎬 Synchronized playback | Coordinate video playback across participants in a room. |
+| 🏠 Watch rooms | Create and join shared viewing sessions. |
+| 💬 Live chat | Talk with other viewers during the movie. |
+| ❤️ Reactions | Add real-time reactions to the shared experience. |
+| 📊 Interactive polls | Let room participants vote together. |
+| 🎞️ Shared playlists | Collaboratively manage movies for the room. |
+| 👑 Host transfer | Transfer room hosting to another participant. |
+| 🔄 Room recovery | Support rejoining a room after a refresh or reconnection. |
+| 🔎 Movie catalogue | Browse available titles and select what to watch. |
 
-## Run locally
+## 🛠️ Built With
 
-From this directory:
+- **Next.js and React** — web interface
+- **TypeScript** — frontend type safety
+- **Node.js** — application server
+- **Socket.IO** — real-time communication
+- **SQLite** — local application data
+- **CSS** — custom cinematic interface
+
+## 🧱 Project Structure
+
+```text
+watchwave/
+├── apps/
+│   ├── server/
+│   │   ├── src/
+│   │   │   ├── catalog.js
+│   │   │   ├── database.js
+│   │   │   ├── index.js
+│   │   │   ├── room-manager.js
+│   │   │   └── socket-handlers.js
+│   │   ├── test/
+│   │   └── package.json
+│   └── web/
+│       ├── app/
+│       ├── components/
+│       ├── lib/
+│       └── public/
+├── docs/
+├── scripts/
+├── package.json
+└── README.md
+```
+
+## ⚡ Getting Started
+
+### Prerequisites
+
+- Node.js and npm
+- Git
+- The required local video assets for full catalogue playback
+
+### 1. Clone the repository
 
 ```bash
-cp .env.example .env
+git clone https://github.com/mitul-mishra5/watchwave.git
+cd watchwave
+```
+
+### 2. Install dependencies
+
+```bash
 npm install
+```
+
+### 3. Configure the environment
+
+Use `.env.example` as a reference for the supported configuration variables. Configure the environment required by the application before starting the server.
+
+### 4. Add the video assets
+
+Large video files are intentionally excluded from Git. Follow [`docs/MEDIA_SETUP.md`](docs/MEDIA_SETUP.md) to obtain the required media and place it in the expected directory.
+
+### 5. Start the application
+
+```bash
 npm run dev
 ```
 
-Open `http://localhost:3000`. The API and Socket.IO server runs on `http://localhost:4000`.
+Open the local URL printed by the frontend development server, typically `http://localhost:3000`.
 
-On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp` if needed.
+> Run the application locally first and follow the project configuration if your environment requires additional setup.
 
-### Environment variables
+## 🧪 Testing
 
-| Variable | Default | Purpose |
-|---|---|---|
-| `PORT` | `4000` | API + Socket.IO port |
-| `CLIENT_ORIGIN` | `http://localhost:3000` | Allowed frontend origin; comma-separated origins are supported |
-| `DATABASE_PATH` | `./watchwave.db` | SQLite database path, relative to server process working directory |
-| `ROOM_CAPACITY` | `10` | Maximum participants per room |
-| `NEXT_PUBLIC_SERVER_URL` | `http://localhost:4000` | API and Socket.IO base URL used by the browser |
-
-For a deployed frontend, set `NEXT_PUBLIC_SERVER_URL` to the deployed API URL and `CLIENT_ORIGIN` to the deployed frontend origin. Configure HTTPS/WSS at the hosting layer.
-
-## Verification
+Run the automated test suite:
 
 ```bash
 npm test
-npm run test:latency
+```
+
+Build the application:
+
+```bash
 npm run build
 ```
 
-The latency command reports p50/p95/p99 for the in-process room manager only. It **does not** measure end-to-end control propagation over Socket.IO and browser playback, so it intentionally reports `requirement_verified: false`. To validate the 250 ms p95 requirement, run clients on the target local network and measure from host action timestamp to participant-side receipt/application, under at least 10 concurrent clients, with warm-up and repeated trials. Record the OS, hardware, browser versions, network topology, sample count, percentiles and reconnect/error cases in `docs/TESTING.md`.
+The repository also includes testing documentation in [`docs/TESTING.md`](docs/TESTING.md).
 
-## Movie media
+## 📚 Documentation
 
-The catalogue contains eight Blender Open Movies and points to distinct local MP4 paths under `apps/web/public/videos/`. The movie files are intentionally not bundled in this ZIP because they are large. Follow [`docs/MEDIA_SETUP.md`](docs/MEDIA_SETUP.md) to obtain them from official sources, place them in the correct folder, and run the PowerShell checker. The player reports a missing file rather than silently falling back to another movie.
+- [Architecture](docs/ARCHITECTURE.md)
+- [Media setup](docs/MEDIA_SETUP.md)
+- [Testing guide](docs/TESTING.md)
+- [Verification status](docs/VERIFICATION_STATUS.md)
 
-## Architecture
+## 🎥 Media and Repository Size
 
-```text
-Next.js UI
-  ├─ Catalog REST endpoints ───────┐
-  └─ Socket.IO events               │
-          │                         ▼
-          └────────────── Express + RoomManager
-                                   │
-                                   ├─ Authoritative playback clock + revisions
-                                   ├─ Membership, host permissions, chat, polls, playlist
-                                   └─ SQLite room snapshots
-```
+WatchWave's source code and documentation are maintained in this repository. Large movie assets are kept outside Git to avoid unnecessarily increasing repository size.
 
-The server is authoritative for shared state. Browser playback is an approximate local rendering of that state. The drift controller compares the browser's playback time with the server timestamp and corrects larger deviations; measured end-to-end accuracy still depends on network jitter, media buffering and browser scheduling.
+The full catalogue requires the corresponding media files to be available locally. See the media setup guide for details.
 
-## Socket event contract
+## 🗺️ Project Status
 
-All client commands accept an optional final acknowledgement callback and respond with `{ ok: true, data }` or `{ ok: false, error: { code, message } }`.
+WatchWave is an actively developed project. Features, compatibility, and verification status may evolve as development continues.
 
-| Client event | Purpose | Authorization |
-|---|---|---|
-| `room:create` | Create room and assign host | Any connected client |
-| `room:join` | Join by code | Any connected client; capacity enforced |
-| `room:sync` | Request current room snapshot | Joined client |
-| `playback:action` | `play`, `pause`, `seek`, `selectMovie` | Host only |
-| `chat:send` | Send a message (max 500 chars) | Joined client |
-| `reaction:send` | Send an allow-listed emoji | Joined client |
-| `playlist:add` | Add catalog item | Joined client |
-| `poll:create` | Create poll (2–6 distinct options) | Joined client |
-| `poll:vote` | Set/update vote | Joined client |
-| `host:transfer` | Transfer host to active participant | Host only |
+## 🤝 Contributing
 
-Server events include `room:state`, `playback:state`, `chat:message`, `reaction:new`, `playlist:state`, `poll:created`, `poll:results`, `participant:joined`, `participant:left`, and `app:error`.
+Suggestions, bug reports, and improvements are welcome. Please open an issue to discuss a proposed change before submitting a pull request.
 
-## Current scope and production hardening
+## 📄 License
 
-This is a functional starter implementation, not a claim of production certification. Before a public deployment, add identity/authentication, invite abuse controls, per-event rate limits, profanity/spam controls, structured logging/metrics, Redis adapter and distributed room state for multiple server instances, database migrations/backups, CSP and security headers, a licensed media provider, accessibility testing, and a real browser-based load/latency test. The 10-user cap is per room and is enforced in the current in-memory room manager.
+No open-source license has been specified yet. Unless a license is added, the repository's code is not automatically granted permission for unrestricted reuse.
+
+---
+
+<p align="center">
+  <strong>WatchWave</strong>
+  <br />
+  <em>Different places. One movie night.</em>
+</p>
