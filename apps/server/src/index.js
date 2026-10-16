@@ -31,7 +31,9 @@ app.get('/api/rooms/:code', (req, res) => {
 app.use((error, _req, res, _next) => res.status(500).json({ error: { code: 'INTERNAL_ERROR', message: 'Unexpected server error.' } }));
 registerSocketHandlers(io, manager);
 
-server.listen(PORT, () => console.log(`WatchWave API + Socket.IO listening on http://localhost:${PORT}`));
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`WatchWave API + Socket.IO listening on port ${PORT}`);
+});
 
 function shutdown() { io.close(); server.close(() => { database.close(); process.exit(0); }); }
 process.on('SIGINT', shutdown);
